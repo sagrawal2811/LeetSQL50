@@ -94,3 +94,12 @@ left join
 (select user_id, count(action) as tot from Confirmations
 group by user_id) as c
 on a.user_id=c.user_id) as d;
+
+-- Another solution:
+select a.user_id,
+round(avg(if(action="confirmed",1,0)),2) as confirmation_rate
+from Signups as a
+left join Confirmations as b
+on a.user_id=b.user_id
+group by a.user_id;
+
